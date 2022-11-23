@@ -1,0 +1,7 @@
+<.header><%= @todo_list_title %></.header>
+
+<.table id="todo-items" rows={@todo_items}>
+  <:col :let={item}><%= item.text %></:col>
+</.table>
+
+<.back navigate={~p"/todo_lists"}>Back</.back>

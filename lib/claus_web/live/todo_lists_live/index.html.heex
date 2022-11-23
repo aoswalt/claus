@@ -1,0 +1,33 @@
+<.header>
+  Lists
+  <:actions>
+    <.link patch={~p"/todo_lists/new"}>
+      <.button>New List</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="todo-lists" rows={@todo_lists} row_click={&JS.navigate(~p"/todo_lists/#{&1}")}>
+  <:col :let={list}><%= list.title %></:col>
+  <:action :let={list}>
+    <.link phx-click={JS.push("delete", value: %{id: list.id})} data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="todo-list-modal"
+  show
+  on_cancel={JS.navigate(~p"/todo_lists")}
+>
+  <.live_component
+    module={ClausWeb.TodoListsLive.FormComponent}
+    todo_list={@todo_list}
+    id={@todo_list.id || :new}
+    action={@live_action}
+    title={@page_title}
+    navigate={~p"/todo_lists"}
+  />
+</.modal>
